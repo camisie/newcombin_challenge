@@ -20,13 +20,13 @@
       </thead>
       <tbody>
       <tr
-          v-for="user in users"
-          v-bind:key="user.ssn"
+          v-for="member in members"
+          v-bind:key="member.ssn"
       >
-        <td>{{user.firstName}}</td>
-        <td>{{user.lastName}}</td>
-        <td>{{user.address}}</td>
-        <td>{{user.ssn}}</td>
+        <td>{{member.firstName}}</td>
+        <td>{{member.lastName}}</td>
+        <td>{{member.address}}</td>
+        <td>{{member.ssn}}</td>
       </tr>
 
       </tbody>
@@ -44,16 +44,17 @@ export default {
   name: "AppTable",
   data () {
     return {
-      users: [],
+      members: [],
     }
   },
 
   mounted() {
     fetch("http://localhost:8081/api/members")
         .then(res => res.json())
-        .then(data => this.users = data)
+        .then(data => this.members = data)
         .catch(err => console.log(err.message))
   }
+
 }
 </script>
 

@@ -9,7 +9,7 @@
       >
         <v-text-field
           outlined
-          v-model="formData.name"
+          v-model="formData.firstName"
           label="First Name"
           :rules="textRules"
           required
@@ -53,7 +53,7 @@
             <div class="buttons">
               <v-btn
                   class="mr-4"
-                  @click="clear"
+                  @click="reset"
               >
                 Reset
               </v-btn>
@@ -78,35 +78,38 @@ import axios from "axios";
 
 export default {
   name: "AppForm",
+
   data: () => ({
+    formData: {
+      firstName: '',
+      lastName: '',
+      address: '',
+      ssn: ''
+    },
+    ssns: [],
     valid: true,
     textRules: [
       v => !!v || "This field is required.",
       v => (v && v.replace(/^\s+|\s+$/gm,'').length > 1) || "This field must be at least 2 characters long."
     ],
     ssnRules: [
-      v => !!v || "This field is required",
-      v => (v && /^\d{3}-\d{2}-\d{4}$/.test(v)) || "This field must be in the format ###-##-####, just numbers",
-      // v => (v && !this.ssns.includes(v)) || "This SSN is already in use."
+      (v) => !!v || "This field is required",
+      (v) => /^\d{3}-\d{2}-\d{4}$/.test(v) || "This field must be in the format ###-##-####, just numbers",
+      // (v) => !this.ssns.includes(v) || "This SSN is already in use.",
+
     ],
-    formData: {
-      name: '',
-      lastName: '',
-      address: '',
-      ssn: ''
-    },
-    ssns: [],
   }),
 
   methods: {
-    clear(){
-      this.formData = '';
+    reset() {
+      this.$refs.form.reset()
     },
     async save () {
       this.$refs.form.validate();
       this.ssns.push(this.formData.ssn)
       await axios.post("http://localhost:8081/api/members", this.formData)
           .catch(err => console.log(err.message))
+
     },
 
   },
