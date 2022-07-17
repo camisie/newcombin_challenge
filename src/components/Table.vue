@@ -21,7 +21,7 @@
       <tbody>
       <tr
           v-for="user in users"
-          :key="user.ssn"
+          v-bind:key="user.ssn"
       >
         <td>{{user.firstName}}</td>
         <td>{{user.lastName}}</td>
@@ -39,6 +39,7 @@
 </template>
 
 <script>
+
 export default {
   name: "AppTable",
   data () {
@@ -46,6 +47,7 @@ export default {
       users: [],
     }
   },
+
   mounted() {
     fetch("http://localhost:8081/api/members")
         .then(res => res.json())

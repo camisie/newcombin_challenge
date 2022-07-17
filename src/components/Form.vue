@@ -9,7 +9,7 @@
       >
         <v-text-field
           outlined
-          v-model="name"
+          v-model="formData.name"
           label="First Name"
           :rules="textRules"
           required
@@ -18,7 +18,7 @@
 
         <v-text-field
             outlined
-            v-model="LastName"
+            v-model="formData.lastName"
             label="Last Name"
             :rules="textRules"
             required
@@ -27,7 +27,7 @@
 
         <v-text-field
             outlined
-            v-model="address"
+            v-model="formData.address"
             label="Address"
             :rules="textRules"
             required
@@ -36,7 +36,7 @@
 
         <v-text-field
             outlined
-            v-model="ssn"
+            v-model="formData.ssn"
             label="SSN"
             :rules="ssnRules"
             required
@@ -63,7 +63,7 @@
                   :disabled="!valid"
                   @click="send"
               >
-                send
+                Save
               </v-btn>
             </div>
           </v-col>
@@ -82,26 +82,25 @@ export default {
     valid: true,
     textRules: [
       v => !!v || "This field is required.",
-      v => (v && v.replace(/^\s+|\s+$/gm,'').length >= 1) || "This field must be at least 1 character long."
+      v => (v && v.replace(/^\s+|\s+$/gm,'').length > 1) || "This field must be at least 2 characters long."
     ],
     ssnRules: [
       v => !!v || "This field is required",
-      v => /^\d{3}-\d{2}-\d{4}$/.test(v) || "SSN must be valid: ###-##-####",
-      v => !this.ssns.includes(v) || "SSN must be unique",
+      v => (v && /^\d{3}-\d{2}-\d{4}$/.test(v)) || "This field must be in the format ###-##-####, just numbers",
+      // v => (v && !this.ssns.includes(v)) || "This SSN is already in use."
     ],
-    name: '',
-    lastName: '',
-    address: '',
-    ssn: '',
+    formData: {
+      name: '',
+      lastName: '',
+      address: '',
+      ssn: ''
+    },
     ssns: [],
   }),
 
   methods: {
     clear(){
-      this.name = '';
-      this.lastName = '';
-      this.address = '';
-      this.ssn = '';
+      this.formData = '';
     },
     async send () {
       this.$refs.form.validate();
@@ -109,6 +108,7 @@ export default {
       await axios.post("http://localhost:8081/api/members", this.formData)
           .catch(err => console.log(err.message))
     },
+
   },
 
 }
