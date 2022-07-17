@@ -16,7 +16,7 @@ npm run serve
 ```
 
 ### Compile and Run
-Al tener la API corriendo, ejecutar el siguiente comando para compilar y ejecutar el proyecto
+Al tener la API corriendo, ejecutar el siguiente comando para compilar y ejecutar el proyecto (en el directorio newcombin_challenge)
 ```
 npm run serve
 ```
