@@ -61,7 +61,7 @@
               <v-btn
                   class="mr-4"
                   :disabled="!valid"
-                  @click="send"
+                  @click="save"
               >
                 Save
               </v-btn>
@@ -102,7 +102,7 @@ export default {
     clear(){
       this.formData = '';
     },
-    async send () {
+    async save () {
       this.$refs.form.validate();
       this.ssns.push(this.formData.ssn)
       await axios.post("http://localhost:8081/api/members", this.formData)
